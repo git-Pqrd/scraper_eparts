@@ -6,9 +6,9 @@ import os
 
 
 
-brand = "toshiba"
-file_name = './cartridge_save/ink_cartridge_save_'+ brand + '.csv'
-result = requests.get('https://www.cartridgesave.co.uk/ink-cartridges/'+ brand  +'.html')
+brand = "panasonic"
+file_name = './cartridge_save/toner_cartridge_save_'+ brand + '.csv'
+result = requests.get('https://www.cartridgesave.co.uk/toner-cartridges/'+ brand  +'.html')
 content = result.content
 status = result.status_code
 soup = BeautifulSoup(content, 'html.parser')

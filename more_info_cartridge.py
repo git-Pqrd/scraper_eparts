@@ -36,18 +36,26 @@ with open( './full_cartridge.csv', 'a' ) as csvfile :
         soup = BeautifulSoup(content, 'html.parser')
 
         #getting multiple li to class the one conso and the one spare
-        name = "product_name : " + soup.find_all('h1', class_='page-title')[0].text
+        try : name = "product_name : " + soup.find_all('h1', class_='page-title')[0].text
+        except : 
+            print("ressource not found : "+ i[0])
+            continue
+
         img = i[1]
         try : nmbr_page = "nmbr_page : " + soup.find_all('span', class_='yield')[0].text
         except : nmbr_page = "unknown" 
 
-        try : color = "color : " + soup.find_all('span', class_='sprite')[0]['class'][1]
-        except : color = "incolor" 
+        color = "color : " + "|".join(soup.find_all('span', class_='sprite')[0]['class'])
+        # except : color = "incolor" 
+        # try : 
         desc = "desc : " + soup.find_all('div', class_='inner-content article')[0].find_all('p')[0].get_text(separator=". ")
 
-        compat_printer = []
-        for a in soup.find_all('div', class_="compatible_printers")[0].find_all('a', class_='p_link'): 
-            compat_printer.append(a.text)
+        compat_printer = "model_compatible : "
+        try : 
+            for a in soup.find_all('div', class_="compatible_printers")[0].find_all('a', class_='p_link'): 
+                compat_printer = compat_printer + a.text+"|"
+        except : 
+            compat_printer = "unknown"
 
         product_spec =  []
         for tr in soup.find_all('table', class_='additional-attributes')[0].find_all('tr'):
@@ -56,7 +64,7 @@ with open( './full_cartridge.csv', 'a' ) as csvfile :
             product_spec.append(carac_key + " : " + carac_val )
 
         urls_visited.append(i)
-        row_done = [i[0], name ,  img , nmbr_page, color, desc] + compat_printer + product_spec 
+        row_done = [i[0], name ,  img , nmbr_page, color, desc] + [compat_printer] + product_spec 
         writer.writerow(row_done)
         print(row_done)
 
