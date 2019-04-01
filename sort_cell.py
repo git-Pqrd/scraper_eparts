@@ -16,14 +16,22 @@ def insertion_sort(arr, simulation=False):
     return arr
 
 new_csv=[]
-with open('./cs_combined_drum.csv', 'r' ) as csv_file:
+count = 0
+with open('./cs_combined_toner.csv', 'r' ) as csv_file:
     reader = csv.reader(csv_file, delimiter=',')
     for row in reader : 
-        new_row = insertion_sort(row)
-        print(new_row)
-        new_csv.append(new_row)
+        count += 1
+        print(count)
+    
+        for cell in row : 
+            if "product_name" in cell.split(" "): 
+                new_csv.append([count, cell])
+        # new_row = insertion_sort(row)
+        # print(new_row)
+        # new_csv.append(new_row)
 
-with open( './cs_combined_sorted.csv' , 'a') as csvfile:
+
+with open( './cs_combined_done.csv' , 'a') as csvfile:
     writer = csv.writer(csvfile, delimiter=',', quotechar='"')
     for i in new_csv:
         writer.writerow(i)

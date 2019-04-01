@@ -76,7 +76,8 @@ def parse(brand) :
             print(prod["product_name"])
             writer.writerow([i] + list(prod.values()))
 
-brands = [ "toshiba","xerox"]
+brands = [ "brother", "dell", "epson", "hp", "kyocera", "lexmark", "okidata", "panasonic", "ricoh", "samsung",
+        "sharp","toshiba","xerox"]
 
 for brand in brands :
     parse(brand)
